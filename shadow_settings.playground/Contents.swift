@@ -5,21 +5,25 @@ import PlaygroundSupport
 
 class MyViewController : UIViewController {
 
-    let _view = UIView()
     let shadowView = UIView(frame: CGRect(x: 87.5, y: 40, width: 200, height: 100))
 
-    let radiusSlider = Slider(frame: CGRect(x: 50, y: 200, width: 250, height: 20))
+    let radiusSlider = Slider(frame: CGRect(x: 50, y: 200, width: 250, height: 20),
+                              title: "Shadow Radius")
     let radiusLabel = UILabel(frame: CGRect(x: 300, y: 200, width: 250, height: 20))
 
-    let opacitySlider = Slider(frame: CGRect(x: 50, y: 250, width: 250, height: 20))
+    let opacitySlider = Slider(frame: CGRect(x: 50, y: 250, width: 250, height: 20),
+                               title: "Shadow Opacity")
     let opacityLabel = UILabel(frame: CGRect(x: 300, y: 250, width: 250, height: 20))
 
-    let sizeWSlider = Slider(frame: CGRect(x: 50, y: 300, width: 250, height: 20))
+    let sizeWSlider = Slider(frame: CGRect(x: 50, y: 300, width: 250, height: 20),
+                             title: "Shadow Offset width")
     let sizeWLabel = UILabel(frame: CGRect(x: 300, y: 300, width: 250, height: 20))
 
-    let sizeHSlider = Slider(frame: CGRect(x: 50, y: 350, width: 250, height: 20))
+    let sizeHSlider = Slider(frame: CGRect(x: 50, y: 350, width: 250, height: 20),
+                             title: "Shadow Offset height")
     let sizeHLabel = UILabel(frame: CGRect(x: 300, y: 350, width: 250, height: 20))
 
+    let _view = UIView()
     override func loadView() {
 
         _view.backgroundColor = .white
@@ -42,13 +46,16 @@ class MyViewController : UIViewController {
     func setupControls() {
         radiusSlider.minimumValue = 0
         radiusSlider.maximumValue = 10
-        radiusSlider.addTarget(self,
-                               action: #selector(radiusChange(sender:)),
+        radiusSlider.addTarget(self, action: #selector(radiusChange(sender:)),
                                for: .valueChanged)
-
-        sizeWSlider.addTarget(self, action: #selector(offSetWidthChange(sender:)), for: .valueChanged)
-        sizeHSlider.addTarget(self, action: #selector(offSetHeightChange(sender:)), for: .valueChanged)
-
+        opacitySlider.minimumValue = 0
+        opacitySlider.maximumValue = 1
+        opacitySlider.addTarget(self, action: #selector(opacityChange(sender:)),
+                                for: .valueChanged)
+        sizeWSlider.addTarget(self, action: #selector(offSetWidthChange(sender:)),
+                              for: .valueChanged)
+        sizeHSlider.addTarget(self, action: #selector(offSetHeightChange(sender:)),
+                              for: .valueChanged)
 
         _view.addSubview(radiusSlider)
         _view.addSubview(radiusLabel)
@@ -63,6 +70,11 @@ class MyViewController : UIViewController {
     @objc func radiusChange(sender: UISlider) {
         shadowView.layer.shadowRadius = CGFloat(sender.value)
         radiusLabel.text = "\(sender.value)"
+    }
+
+    @objc func opacityChange(sender: UISlider) {
+        shadowView.layer.shadowOpacity = sender.value
+        opacityLabel.text = "\(sender.value)"
     }
 
     @objc func offSetWidthChange(sender: UISlider) {
@@ -81,4 +93,4 @@ class MyViewController : UIViewController {
 }
 // Present the view controller in the Live View window
 PlaygroundPage.current.liveView = MyViewController()
-print((PlaygroundPage.current.liveView as! UIViewController).view.frame.debugDescription)
+//print((PlaygroundPage.current.liveView as! UIViewController).view.frame.debugDescription)
